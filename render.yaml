@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: cwk-store
+    env: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn core.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.13
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        value: cwk-store.onrender.com
