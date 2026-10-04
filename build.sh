@@ -11,3 +11,4 @@ python manage.py makemigrations store
 # 3. Collect static files & run database migrations
 python manage.py collectstatic --noinput
 python manage.py migrate
+pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
