@@ -4,3 +4,4 @@ django-cors-headers
 gunicorn
 whitenoise
 djangorestframework-simplejwt
+google-genai
