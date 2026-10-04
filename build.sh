@@ -4,6 +4,10 @@ set -o errexit
 # 1. Install Python dependencies
 pip install -r requirements.txt
 
-# 2. Collect static files & run database migrations
-python manage.py collectstatic --no-input
+# 2. Make migrations automatically on Render build
+python manage.py makemigrations
+python manage.py makemigrations store
+
+# 3. Collect static files & run database migrations
+python manage.py collectstatic --noinput
 python manage.py migrate
