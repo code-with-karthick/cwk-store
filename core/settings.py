@@ -11,8 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-xjb3ugv%02_gj3u2^u^2&@36za&z!c^=$2mhz8t6re@!1v6q&t')
 
-# SECURITY WARNING: Temporarily True to see the exact error traceback on Render
-DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = 'RENDER' not in os.environ  # Automatically False on Render
 
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
 
@@ -85,7 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'Name': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
