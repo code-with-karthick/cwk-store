@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// Render Backend Live API Base URL
+const API_BASE_URL = 'https://cwk-store-backend.onrender.com';
+
 function App() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,8 +17,8 @@ function App() {
   const [inputMessage, setInputMessage] = useState('');
 
   useEffect(() => {
-    // Fetching products from Django Backend REST API
-    fetch('http://127.0.0.1:8000/api/products/')
+    // Fetching products from Render Django Backend REST API
+    fetch(`${API_BASE_URL}/api/products/`)
       .then(res => res.json())
       .then(data => {
         setProducts(data);
@@ -46,7 +49,7 @@ function App() {
     setCart(prevCart => prevCart.filter(item => item.id !== productId));
   };
 
-  // Handle sending chat message to Django Backend API
+  // Handle sending chat message to Render Django Backend API
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
@@ -57,7 +60,7 @@ function App() {
     setInputMessage('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/chat/', {
+      const response = await fetch(`${API_BASE_URL}/api/chat/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +83,7 @@ function App() {
     }
   };
 
-  // Filter products based on selected category (matches database 'clothing', 'gadgets', 'digital')
+  // Filter products based on selected category
   const filteredProducts = selectedCategory === 'All' 
     ? products 
     : products.filter(p => p.category && p.category.toLowerCase() === selectedCategory.toLowerCase());
@@ -148,7 +151,7 @@ function App() {
         ))}
       </div>
 
-      {/* Main Products Container (Exact Screenshot Card Size Match: minmax 220px) */}
+      {/* Main Products Container */}
       <div id="products" style={{ maxWidth: '1100px', margin: '2rem auto', padding: '0 1rem' }}>
         <h2 style={{ fontSize: '1.5rem', color: '#990000', marginBottom: '1.5rem', borderBottom: '2px solid #cc0000', display: 'inline-block', paddingBottom: '4px' }}>
           {selectedCategory === 'All' ? 'Featured Products' : `${selectedCategory.toUpperCase()} Collection`}
@@ -180,7 +183,6 @@ function App() {
                   justifyContent: 'space-between',
                   transition: 'transform 0.2s, box-shadow 0.2s'
                 }}>
-                  {/* Image Container with Top Category Tag Style */}
                   <div style={{ position: 'relative', backgroundColor: '#f9f9f9' }}>
                     <span style={{
                       position: 'absolute',
@@ -204,7 +206,6 @@ function App() {
                     />
                   </div>
 
-                  {/* Card Content */}
                   <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <h3 style={{ fontSize: '0.95rem', fontWeight: 600, margin: 0, color: '#333', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {product.title}
@@ -310,7 +311,6 @@ function App() {
       {/* --- AI ASSISTANT CHATBOX WIDGET --- */}
       <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 1000 }}>
         
-        {/* Chat Window */}
         {isChatOpen && (
           <div style={{
             width: '320px',
@@ -324,7 +324,6 @@ function App() {
             marginBottom: '15px',
             border: '1px solid #ffcccc'
           }}>
-            {/* Chat Header */}
             <div style={{
               background: 'linear-gradient(135deg, #cc0000, #990000)',
               color: 'white',
@@ -344,7 +343,6 @@ function App() {
               </button>
             </div>
 
-            {/* Messages Body */}
             <div style={{ flex: 1, padding: '15px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', backgroundColor: '#f9f9f9', whiteSpace: 'pre-line' }}>
               {messages.map((msg, index) => (
                 <div key={index} style={{
@@ -361,7 +359,6 @@ function App() {
               ))}
             </div>
 
-            {/* Input Form */}
             <form onSubmit={handleSendMessage} style={{ display: 'flex', borderTop: '1px solid #ddd', padding: '10px', backgroundColor: 'white' }}>
               <input 
                 type="text" 
@@ -377,7 +374,6 @@ function App() {
           </div>
         )}
 
-        {/* Floating Toggle Button */}
         <button 
           onClick={() => setIsChatOpen(!isChatOpen)}
           style={{
